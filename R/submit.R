@@ -23,13 +23,14 @@ submit <- function(forecast_file,
   go <- forecast_output_validator(forecast_file)
 
   googlesheets4::gs4_deauth()
-  message("Accessing registered model_ids")
-  registered_model_id <- googlesheets4::read_sheet('https://docs.google.com/spreadsheets/d/17DNtk2uSxaIKkuj4Dhbs39kdT7NCQ01Tk9qzhMWev9k/edit?usp=sharing')
+  message("Checking if model_id is registered")
+  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1-OsDaOoMZwPfQnz5U5aV-T9_vhTmyg92Ff5ARRunYhY/edit?usp=sharing", range = "responses!B:B") 
+
   df <- readr::read_csv(forecast_file, show_col_types = FALSE)
   model_id <- df$model_id[1]
-  if(!(model_id %in% registered_model_id$`What is your model_id?`)){
+  if(!(model_id %in% registered_model_id$model_id)){
     warning(paste0("model_id has not been registered yet\n",
-                   "register at https://docs.google.com/forms/d/e/1FAIpQLSf4rinfAzkAREHwyYbwB0Co3DwV4YndPuTdRMtHJzBsqTfbvw/viewform?usp=sf_link"))
+                   "register at https://forms.gle/B3uBgiLXDJxrBoHD6"))
     return(NULL)
   }
 
