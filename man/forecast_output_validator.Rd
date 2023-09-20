@@ -7,7 +7,7 @@
 forecast_output_validator(
   forecast_file,
   target_variables = c("nee", "le"),
-  theme_names = c("aquatics")
+  theme_names = c("daily", "hourly")
 )
 }
 \arguments{
