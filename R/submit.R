@@ -19,7 +19,6 @@ submit <- function(forecast_file,
                   "Consider renaming these so that automated upload will work"))
   }
   message("validating that file matches required standard")
-  source("https://raw.githubusercontent.com/LTREB-reservoirs/vera4cast/main/R/forecast_output_validator.R")
   go <- forecast_output_validator(forecast_file)
 
   googlesheets4::gs4_deauth()
