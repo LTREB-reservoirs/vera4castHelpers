@@ -15,7 +15,7 @@ forecast_output_validator <- function(forecast_file,
                                       target_variables = c("nee",
                                                            "le"),
                                       #GENERALIZATION:  Specific themes
-                                      theme_names = c("aquatics")){
+                                      theme_names = c("daily","hourly")){
   file_in <- forecast_file
 
   valid <- TRUE
