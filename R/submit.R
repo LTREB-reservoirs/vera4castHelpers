@@ -1,15 +1,13 @@
 ## Technically this could become arrow-based
 
-#' submit forecast to EFI
+#' submit forecast to Challenge
 #'
 #' @inheritParams forecast_output_validator
-#' @param metadata path to metadata file
 #' @param ask should we prompt for a go before submission?
 #' @param s3_region subdomain (leave as is for EFI challenge)
 #' @param s3_endpoint root domain (leave as is for EFI challenge)
 #' @export
 submit <- function(forecast_file,
-                   metadata = NULL,
                    ask = interactive(),
                    s3_region = "submit",
                    s3_endpoint = "ltreb-reservoirs.org"
@@ -64,53 +62,4 @@ if(!(model_id %in% registered_model_id$model_id)){
   }else{
     warning("Forecasts was not sucessfully submitted to server")
   }
-
-  if(!is.null(metadata)){
-    if(tools::file_ext(metadata) == "xml"){
-      EFIstandards::forecast_validator(metadata)
-      aws.s3::put_object(file = metadata,
-                         object = basename(metadata),
-                         bucket = "vera4cast-submissions",
-                         region= s3_region,
-                         base_url = s3_endpoint)
-    }else{
-      warning(paste("Metadata file is not an .xml file",
-                    "Did you incorrectly submit the model description yml file instead of an xml file"))
-    }
-  }
-}
-
-#' Check that submission was successfully processed
-#'
-#' @param forecast_file Your forecast csv or nc file
-#' @param s3_region subdomain (leave as is for EFI challenge)
-#' @param s3_endpoint root domain (leave as is for EFI challenge)
-#' @export
-check_submission <- function(forecast_file,
-                             s3_region = "submit",
-                             s3_endpoint = "ltreb-reservoirs.org"){
-
-  theme <- stringr::str_split_fixed(basename(forecast_file), "-", n = 2)
-
-  base_name <- forecast_file
-
-  exists <- suppressMessages(aws.s3::object_exists(object = file.path("raw", theme[,1], base_name),
-                                                   bucket = "vera4cast-forecasts",
-                                                   region= s3_region,
-                                                   base_url = s3_endpoint))
-
-  if(exists){
-    message("Submission was successfully processed")
-  }else{
-    not_in_standard <- suppressMessages(aws.s3::object_exists(object = file.path("not_in_standard", basename(forecast_file)),
-                                                              bucket = "vera4cast-forecasts",
-                                                              region= s3_region,
-                                                              base_url = s3_endpoint))
-    if(not_in_standard){
-      message("Submission is not in required format. Try running neon4cast::forecast_output_validator on your file to see what the issue may be")
-    }else{
-      message("Your forecast is still in queue to be processed by the server. Please check again in a few hours")
-    }
-  }
-  invisible(exists)
 }
