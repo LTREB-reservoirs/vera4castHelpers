@@ -2,11 +2,10 @@
 % Please edit documentation in R/submit.R
 \name{submit}
 \alias{submit}
-\title{submit forecast to EFI}
+\title{submit forecast to Challenge}
 \usage{
 submit(
   forecast_file,
-  metadata = NULL,
   ask = interactive(),
   s3_region = "submit",
   s3_endpoint = "ltreb-reservoirs.org"
@@ -15,8 +14,6 @@ submit(
 \arguments{
 \item{forecast_file}{Your forecast csv or nc file}
 
-\item{metadata}{path to metadata file}
-
 \item{ask}{should we prompt for a go before submission?}
 
 \item{s3_region}{subdomain (leave as is for EFI challenge)}
@@ -24,5 +21,5 @@ submit(
 \item{s3_endpoint}{root domain (leave as is for EFI challenge)}
 }
 \description{
-submit forecast to EFI
+submit forecast to Challenge
 }
