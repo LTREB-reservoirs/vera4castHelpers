@@ -30,7 +30,7 @@ submit <- function(forecast_file,
 if(!(model_id %in% registered_model_id$model_id)){
   message("Checking if model_id is already used in submissions")
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
-  if(model_id) %in% submitted_model_ids$model_id){
+  if(model_id %in% submitted_model_ids$model_id){
     warning(paste0("Your model_id (",model_id,") has not been registered yet but is already used in other submissions.  Please use and register another model_id\n",
                    "Register at https://forms.gle/B3uBgiLXDJxrBoHD6"))
   }else{
