@@ -35,7 +35,7 @@ if(!(model_id %in% registered_model_id$model_id)){
                    "Register at https://forms.gle/B3uBgiLXDJxrBoHD6"))
   }else{
     warning(paste0("Your model_id (",model_id,") has not been registered\n",
-                   "Register at https://forms.gle/B3uBgiLXDJxrBoHD6"))
+                   "   Register at https://forms.gle/B3uBgiLXDJxrBoHD6"))
   }
   return(NULL)
 }
