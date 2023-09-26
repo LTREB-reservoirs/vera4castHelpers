@@ -10,7 +10,8 @@
 submit <- function(forecast_file,
                    ask = interactive(),
                    s3_region = "submit",
-                   s3_endpoint = "ltreb-reservoirs.org"
+                   s3_endpoint = "ltreb-reservoirs.org",
+                   first_submission = TRUE
 ){
   if(file.exists("~/.aws")){
     warning(paste("Detected existing AWS credentials file in ~/.aws,",
@@ -21,7 +22,7 @@ submit <- function(forecast_file,
 
   googlesheets4::gs4_deauth()
   message("Checking if model_id is registered")
-  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1-OsDaOoMZwPfQnz5U5aV-T9_vhTmyg92Ff5ARRunYhY/edit?usp=sharing", range = "responses!B:B") 
+  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:A") 
 
   df <- readr::read_csv(forecast_file, show_col_types = FALSE)
   model_id <- df$model_id[1]
@@ -37,6 +38,15 @@ if(!(model_id %in% registered_model_id$model_id)){
   }
   return(NULL)
 }
+
+  if(first_submission & model_id %in% registered_model_id$model_id){
+    submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
+    if(model_id %in% submitted_model_ids$model_id){
+      warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causess for this error: \n
+                    - If you have previously submitted a forecast, set the argument `first_submission = FALSE` to remove this error\n
+                    - If you have not previously submitted a forecast, this error message means that the model_id has already been registered and used for submissions.  Please register and use another model_id at https://forms.gle/B3uBgiLXDJxrBoHD6"))
+    }
+  }
 
   if(!go){
 
