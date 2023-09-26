@@ -28,9 +28,9 @@ submit <- function(forecast_file,
   model_id <- df$model_id[1]
 
 if( grep("(example)",model_id)){
-  message("You are submitting a forecast with example in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n
+  message("You are submitting a forecast with 'example' in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n
           No registration is required to submit an example forecast.\n
-          If you want your forecast to be retained, please choice a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57")
+          If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57")
 }
 if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
   message("Checking if model_id is already used in submissions")
