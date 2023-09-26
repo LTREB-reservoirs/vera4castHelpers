@@ -31,10 +31,10 @@ if(!(model_id %in% registered_model_id$model_id)){
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
   if(model_id %in% submitted_model_ids$model_id){
     warning(paste0("Your model_id (",model_id,") has not been registered yet but is already used in other submissions.  Please use and register another model_id\n",
-                   "   Register at https://forms.gle/kg2Vkpho9BoMXSy57"))
+                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
   }else{
     warning(paste0("Your model_id (",model_id,") has not been registered\n",
-                   "   Register at https://forms.gle/kg2Vkpho9BoMXSy57"))
+                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
   }
   return(NULL)
 }
@@ -44,7 +44,7 @@ if(!(model_id %in% registered_model_id$model_id)){
     if(model_id %in% submitted_model_ids$model_id){
       warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causess for this error: \n
                     - If you have previously submitted a forecast, set the argument `first_submission = FALSE` to remove this error\n
-                    - If you have not previously submitted a forecast, this error message means that the model_id has already been registered and used for submissions.  Please register and use another model_id at https://forms.gle/kg2Vkpho9BoMXSy57"))
+                    - If you have not previously submitted a forecast, this error message means that the model_id has already been registered and used for submissions.  Please register and use another model_id at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
     }
   }
 
