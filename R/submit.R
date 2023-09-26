@@ -26,7 +26,13 @@ submit <- function(forecast_file,
 
   df <- readr::read_csv(forecast_file, show_col_types = FALSE)
   model_id <- df$model_id[1]
-if(!(model_id %in% registered_model_id$model_id)){
+
+if( grep("(example)",model_id)){
+  message("You are submitting a forecast with example in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n
+          No registration is required to submit an example forecast.\n
+          If you want your forecast to be retained, please choice a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57")
+}
+if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
   message("Checking if model_id is already used in submissions")
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
   if(model_id %in% submitted_model_ids$model_id){
@@ -39,12 +45,14 @@ if(!(model_id %in% registered_model_id$model_id)){
   return(NULL)
 }
 
-  if(first_submission & model_id %in% registered_model_id$model_id){
-    submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
-    if(model_id %in% submitted_model_ids$model_id){
-      warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causess for this error: \n
+  if(!grep("(example)",model_id)){
+    if(first_submission & model_id %in% registered_model_id$model_id){
+      submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
+      if(model_id %in% submitted_model_ids$model_id){
+        warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causess for this error: \n
                     - If you have previously submitted a forecast, set the argument `first_submission = FALSE` to remove this error\n
                     - If you have not previously submitted a forecast, this error message means that the model_id has already been registered and used for submissions.  Please register and use another model_id at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
+      }
     }
   }
 
