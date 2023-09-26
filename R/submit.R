@@ -28,19 +28,21 @@ submit <- function(forecast_file,
   model_id <- df$model_id[1]
 
 if( grep("(example)",model_id)){
-  message("You are submitting a forecast with 'example' in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n
-          No registration is required to submit an example forecast.\n
-          If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57")
+  message(paste0("You are submitting a forecast with 'example' in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n",
+          "No registration is required to submit an example forecast.\n"
+          "If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57\n")
 }
 if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
   message("Checking if model_id is already used in submissions")
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
   if(model_id %in% submitted_model_ids$model_id){
     warning(paste0("Your model_id (",model_id,") has not been registered yet but is already used in other submissions.  Please use and register another model_id\n",
-                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
+                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)\n",
+                  "If you want to submit without registering, include the word 'example' in your model_id.  It will be processed but only retained for 30-days"))
   }else{
     warning(paste0("Your model_id (",model_id,") has not been registered\n",
-                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
+                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)\n",
+                  "If you want to submit without registering, include the word 'example' in your model_id.  It will be processed but only retained for 30-days"))
   }
   return(NULL)
 }
@@ -76,8 +78,8 @@ if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
                                base_url = s3_endpoint)
 
   if(exists){
-    message("Successfully submitted forecast to server")
+    message("Thank you for submittting! Party Parrot!")
   }else{
-    warning("Forecasts was not sucessfully submitted to server")
+    warning("Forecasts was not sucessfully submitted to server. Try again, then contact the Challenge organizers.")
   }
 }
