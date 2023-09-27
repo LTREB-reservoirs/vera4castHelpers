@@ -37,11 +37,11 @@ if(!(model_id %in% registered_model_id$model_id) & length(grep("(example)",model
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
   if(model_id %in% submitted_model_ids$model_id){
     warning(paste0("Your model_id (",model_id,") has not been registered yet but is already used in other submissions.  Please use and register another model_id\n",
-                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)\n",
+                   "   Register at https://forms.gle/kg2Vkpho9BoMXSy57\n",
                   "If you want to submit without registering, include the word 'example' in your model_id.  It will be processed but only retained for 30-days"))
   }else{
     warning(paste0("Your model_id (",model_id,") has not been registered\n",
-                   "   Register at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)\n",
+                   "   Register at https://forms.gle/kg2Vkpho9BoMXSy57\n",
                   "If you want to submit without registering, include the word 'example' in your model_id.  It will be processed but only retained for 30-days"))
   }
   return(NULL)
@@ -66,9 +66,11 @@ if(!(model_id %in% registered_model_id$model_id) & length(grep("(example)",model
     return(NULL)
   }
 
-  if(go & ask){
-    go <- utils::askYesNo("Forecast file is valid, ready to submit?")
-  }
+  #if(go & ask){
+  #
+  #  go <- utils::askYesNo(paste0("Forecast file is valid, ready to submit?\n",
+  #                               "To remove the need to , set ask = 'TRUE'"))
+  #}
 
   #GENERALIZATION:  Here are specific AWS INFO
   exists <- aws.s3::put_object(file = forecast_file,
@@ -78,7 +80,7 @@ if(!(model_id %in% registered_model_id$model_id) & length(grep("(example)",model
                                base_url = s3_endpoint)
 
   if(exists){
-    message("Thank you for submittting! Party Parrot!")
+    message("Thank you for submitting! Party Parrot!")
   }else{
     warning("Forecasts was not sucessfully submitted to server. Try again, then contact the Challenge organizers.")
   }
