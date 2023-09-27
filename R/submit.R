@@ -32,7 +32,7 @@ if( grep("(example)",model_id)){
           "No registration is required to submit an example forecast.\n",
           "If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57\n"))
 }
-if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
+if(!(model_id %in% registered_model_id$model_id) & length(grep("(example)",model_id)) == 0){
   message("Checking if model_id is already used in submissions")
   submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
   if(model_id %in% submitted_model_ids$model_id){
@@ -47,7 +47,7 @@ if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
   return(NULL)
 }
 
-  if(!grep("(example)",model_id)){
+  if(length(grep("(example)",model_id)) == 0){
     if(first_submission & model_id %in% registered_model_id$model_id){
       submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
       if(model_id %in% submitted_model_ids$model_id){
