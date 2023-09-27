@@ -76,7 +76,7 @@ forecast_output_validator <- function(forecast_file,
 
       if(lexists(out, "parameter")){
         #if("mu" %in% unique(out$parameter) & "sigma" %in% unique(out$parameter)){
-        #  usethis::ui_done("file has parameter and family column with normal distribution")
+        usethis::ui_done("file has correct family and parameter columns")
         #}else if("ensemble" %in% unique(out$family)){
         #  usethis::ui_done("file has parameter and family column with ensemble generated distribution")
         #}else{
@@ -102,15 +102,15 @@ forecast_output_validator <- function(forecast_file,
 
     #usethis::ui_todo("Checking that file contains parsable time column...")
     if(lexists(out, c("datetime"))){
-      usethis::ui_done("file has time column")
+      usethis::ui_done("file has datetime column")
       if(!stringr::str_detect(out$datetime[1], "-")){
         usethis::ui_done("time column format is not in the correct YYYY-MM-DD format")
         valid <- FALSE
       }else{
         if(sum(class(out$datetime) %in% c("Date","POSIXct")) > 0){
-          usethis::ui_done("file has correct time column")
+          usethis::ui_done("file has correct datetime column")
         }else{
-          usethis::ui_done("time column format is not in the correct YYYY-MM-DD format")
+          usethis::ui_done("datetime column format is not in the correct YYYY-MM-DD format")
           valid <- FALSE
         }
       }
