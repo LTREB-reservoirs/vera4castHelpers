@@ -22,15 +22,15 @@ submit <- function(forecast_file,
 
   googlesheets4::gs4_deauth()
   message("Checking if model_id is registered")
-  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:A") 
+  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:A")
 
   df <- readr::read_csv(forecast_file, show_col_types = FALSE)
   model_id <- df$model_id[1]
 
 if( grep("(example)",model_id)){
   message(paste0("You are submitting a forecast with 'example' in the model_id. As a example forecast, it will be processed but only retained for 30-days.\n",
-          "No registration is required to submit an example forecast.\n"
-          "If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57\n")
+          "No registration is required to submit an example forecast.\n",
+          "If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57\n"))
 }
 if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
   message("Checking if model_id is already used in submissions")
