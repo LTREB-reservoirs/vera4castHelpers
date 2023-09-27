@@ -8,7 +8,7 @@
 #' @param s3_endpoint root domain (leave as is for EFI challenge)
 #' @export
 submit <- function(forecast_file,
-                   ask = interactive(),
+                   ask = NULL,
                    s3_region = "submit",
                    s3_endpoint = "ltreb-reservoirs.org",
                    first_submission = TRUE
@@ -22,7 +22,7 @@ submit <- function(forecast_file,
 
   googlesheets4::gs4_deauth()
   message("Checking if model_id is registered")
-  registered_model_id <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:A")
+  registered_model_id <- suppressMessages(googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:A"))
 
   df <- readr::read_csv(forecast_file, show_col_types = FALSE)
   model_id <- df$model_id[1]
