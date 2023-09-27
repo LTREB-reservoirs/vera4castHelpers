@@ -23,28 +23,28 @@ forecast_output_validator <- function(forecast_file,
   message(file_in)
 
   #usethis::ui_todo("Checking validity of file name...")
-  file_basename <- basename(file_in)
-  parsed_basename <- unlist(stringr::str_split(file_basename, "-"))
-  file_name_parsable <- TRUE
+  #file_basename <- basename(file_in)
+  #parsed_basename <- unlist(stringr::str_split(file_basename, "-"))
+  #file_name_parsable <- TRUE
 
-  if(!(parsed_basename[1] %in% theme_names)){
-    usethis::ui_warn(paste0("first position of file name (before first -) is not one of the following : ",
-                            paste(theme_names, collapse = " ")))
-    valid <- FALSE
-    file_name_parsable <- FALSE
-  }
+  #if(!(parsed_basename[1] %in% theme_names)){
+  #  usethis::ui_warn(paste0("first position of file name (before first -) is not one of the following : ",
+  #                          paste(theme_names, collapse = " ")))
+  #  valid <- FALSE
+  #  file_name_parsable <- FALSE
+  #}
 
-  date_string <- lubridate::as_date(paste(parsed_basename[2:4], collapse = "-"))
+  #date_string <- lubridate::as_date(paste(parsed_basename[2:4], collapse = "-"))
 
-  if(is.na(date_string)){
-    usethis::ui_warn("file name does not contain parsable date")
-    file_name_parsable <- FALSE
-    valid <- FALSE
-  }
+  #if(is.na(date_string)){
+  #  usethis::ui_warn("file name does not contain parsable date")
+  #  file_name_parsable <- FALSE
+  #  valid <- FALSE
+  #}
 
-  if(file_name_parsable){
-    usethis::ui_done("file name is correct")
-  }
+  #if(file_name_parsable){
+  #  usethis::ui_done("file name is correct")
+  #}
 
   if(any(vapply(c("[.]csv", "[.]csv\\.gz"), grepl, logical(1), file_in))){
 
@@ -53,9 +53,6 @@ forecast_output_validator <- function(forecast_file,
 
     if("variable" %in% names(out) & "prediction" %in% names(out)){
       usethis::ui_done("forecasted variables found correct variable + prediction column")
-    }else if("variable" %in% names(out) & "predicted" %in% names(out)){
-      usethis::ui_warn("file as predicted column.  change column name to prediction")
-      valid <- FALSE
     }else{
       usethis::ui_warn("missing the variable and prediction columns")
       valid <- FALSE
@@ -68,39 +65,37 @@ forecast_output_validator <- function(forecast_file,
       valid <- FALSE
     }else if(lexists(out, "family")){
 
-      if("normal" %in% unique(out$family)){
-        usethis::ui_done("file has normal distribution in family column")
-      }else if("ensemble" %in% unique(out$family)){
-        usethis::ui_done("file has ensemble distribution in family column")
-      }else{
-        usethis::ui_warn("only normal or ensemble distributions in family columns are currently supported")
-        valid <- FALSE
-      }
+      #if("normal" %in% unique(out$family)){
+      #  usethis::ui_done("file has normal distribution in family column")
+      #}else if("ensemble" %in% unique(out$family)){
+      #  usethis::ui_done("file has ensemble distribution in family column")
+      #}else{
+      #  usethis::ui_warn("only normal or ensemble distributions in family columns are currently supported")
+      #  valid <- FALSE
+      #}
 
       if(lexists(out, "parameter")){
-        if("mu" %in% unique(out$parameter) & "sigma" %in% unique(out$parameter)){
-          usethis::ui_done("file has parameter and family column with normal distribution")
-        }else if("ensemble" %in% unique(out$family)){
-          usethis::ui_done("file has parameter and family column with ensemble generated distribution")
-        }else{
-          usethis::ui_warn("file does not have parameter column is not a normal or ensemble distribution")
-          valid <- FALSE
-        }
+        #if("mu" %in% unique(out$parameter) & "sigma" %in% unique(out$parameter)){
+        #  usethis::ui_done("file has parameter and family column with normal distribution")
+        #}else if("ensemble" %in% unique(out$family)){
+        #  usethis::ui_done("file has parameter and family column with ensemble generated distribution")
+        #}else{
+        #  usethis::ui_warn("file does not have parameter column is not a normal or ensemble distribution")
+        #  valid <- FALSE
+        #}
       }else{
-        usethis::ui_warn("file does not have parameter and family column ")
+        usethis::ui_warn("file does not have parameter column ")
         valid <- FALSE
       }
 
     }else{
-      usethis::ui_warn("file does not have ensemble or family + parameter column")
+      usethis::ui_warn("file does not have ensemble or family and/or parameter column")
       valid <- FALSE
     }
 
     #usethis::ui_todo("Checking that file contains siteID column...")
     if(lexists(out, c("site_id"))){
       usethis::ui_done("file has site_id column")
-    }else if(lexists(out, c("siteID"))){
-      usethis::ui_warn("file siteID column should be named site_id")
     }else{
       usethis::ui_warn("file missing site_id column")
     }
@@ -119,11 +114,8 @@ forecast_output_validator <- function(forecast_file,
           valid <- FALSE
         }
       }
-    }else if(lexists(out, c("time"))){
-      usethis::ui_warn("time dimension should be named datetime. We are converting it during processing but please update your submission format")
-      valid <- TRUE
     }else{
-      usethis::ui_warn("file missing time column")
+      usethis::ui_warn("file missing datetime column")
       valid <- FALSE
     }
 
