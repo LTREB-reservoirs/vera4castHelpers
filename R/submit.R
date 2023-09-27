@@ -51,18 +51,18 @@ if(!(model_id %in% registered_model_id$model_id | grep("(example)",model_id))){
     if(first_submission & model_id %in% registered_model_id$model_id){
       submitted_model_ids <- read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-theme-inventory.csv", show_col_types = FALSE)
       if(model_id %in% submitted_model_ids$model_id){
-        warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causess for this error: \n
+        warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causes for this error: \n
                     - If you have previously submitted a forecast, set the argument `first_submission = FALSE` to remove this error\n
                     - If you have not previously submitted a forecast, this error message means that the model_id has already been registered and used for submissions.  Please register and use another model_id at [https://forms.gle/kg2Vkpho9BoMXSy57](https://forms.gle/kg2Vkpho9BoMXSy57)"))
       }
     }
+  }else{
+    message("Since `example` is in your model_id, you are submitting an example forecast that will be processed but only retained for 30-days")
   }
 
   if(!go){
 
-    warning(paste0("forecasts was not in a valid format and was not submitted\n",
-                   "First, try read reinstalling neon4cast (remotes::install_github('eco4cast\\neon4cast'), restarting R, and trying again\n",
-                   "Second, see https://projects.ecoforecast.org/neon4cast-docs/Submission-Instructions.html for more information on the file format"))
+    warning(paste0("forecasts was not in a valid format and was not submitted\n"))
     return(NULL)
   }
 
