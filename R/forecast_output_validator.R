@@ -1,21 +1,11 @@
-#' forecast_output_validator
+#' Validate forecast file
 #'
-#' @param forecast_file Your forecast csv or nc file
-#' @param target_variables  Possible target variables
-#' @param theme_names valid EFI theme names
+#' @param forecast_file forecast csv or csv.gz file
 #' @export
-#'
-#' @examples
-#'
-#' forecast_file <- system.file("extdata/aquatics-2021-02-01-EFInull.csv.gz",
-#'                               package = "neon4cast")
-#' forecast_output_validator(forecast_file)
-#'
-forecast_output_validator <- function(forecast_file,
-                                      target_variables = c("nee",
-                                                           "le"),
-                                      #GENERALIZATION:  Specific themes
-                                      theme_names = c("daily","hourly")){
+
+forecast_output_validator <- function(forecast_file){
+
+
   file_in <- forecast_file
 
   valid <- TRUE
@@ -103,8 +93,8 @@ forecast_output_validator <- function(forecast_file,
     #usethis::ui_todo("Checking that file contains parsable time column...")
     if(lexists(out, c("datetime"))){
       usethis::ui_done("file has datetime column")
-      if(!stringr::str_detect(out$datetime[1], "-")){
-        usethis::ui_done("time column format is not in the correct YYYY-MM-DD format")
+      if(!grepl("-", out$datetime[1])){
+        usethis::ui_done("datetime column format is not in the correct YYYY-MM-DD format")
         valid <- FALSE
       }else{
         if(sum(class(out$datetime) %in% c("Date","POSIXct")) > 0){
@@ -128,6 +118,7 @@ forecast_output_validator <- function(forecast_file,
     }
 
   }else{
+    usethis::ui_warn("incorrect file extension (csv or csv.gz are accepted)")
     valid <- FALSE
   }
   if(!valid){

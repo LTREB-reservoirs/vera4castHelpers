@@ -2,24 +2,27 @@
 % Please edit documentation in R/submit.R
 \name{submit}
 \alias{submit}
-\title{submit forecast to Challenge}
+\title{Submit forecast to forecasting challenge}
 \usage{
 submit(
   forecast_file,
-  ask = interactive(),
+  ask = NULL,
   s3_region = "submit",
-  s3_endpoint = "ltreb-reservoirs.org"
+  s3_endpoint = "ltreb-reservoirs.org",
+  first_submission = TRUE
 )
 }
 \arguments{
-\item{forecast_file}{Your forecast csv or nc file}
+\item{forecast_file}{forecast csv or csv.gz file}
 
 \item{ask}{should we prompt for a go before submission?}
 
-\item{s3_region}{subdomain (leave as is for EFI challenge)}
+\item{s3_region}{subdomain of submission bucket}
 
-\item{s3_endpoint}{root domain (leave as is for EFI challenge)}
+\item{s3_endpoint}{root domain of submission bucket}
+
+\item{first_submission}{flag if first submission.  set to FALSE if submitting multiple forecasts}
 }
 \description{
-submit forecast to Challenge
+Submit forecast to forecasting challenge
 }
