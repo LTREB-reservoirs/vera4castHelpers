@@ -47,7 +47,7 @@ if(!(model_id %in% registered_model_id$model_id) & !grepl("(example)",model_id))
 
   if(!grepl("(example)",model_id)){
     if(first_submission & model_id %in% registered_model_id$model_id){
-      submitted_model_ids <- readr::read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-inventory.csv", show_col_types = FALSE)
+      submitted_model_ids <- readr::read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-project_id-inventory.csv", show_col_types = FALSE)
       if(model_id %in% submitted_model_ids$model_id){
         warning(paste0("Your model_id (",model_id,") is already used in other submitted forecasts. There are two causes for this error: \n
                     - If you have previously submitted a forecast, set the argument `first_submission = FALSE` to remove this error\n
