@@ -116,10 +116,10 @@ forecast_output_validator <- function(forecast_file){
       usethis::ui_warn("file missing duration column (values for the column: daily = P1D, hourly = PT1H)")
     }
 
-    if(lexists(out, c("depth"))){
+    if(lexists(out, c("depth_m"))){
       usethis::ui_done("file has depth column")
     }else{
-      usethis::ui_warn("file missing depth column (use depth = NA for variables without a specific depth")
+      usethis::ui_warn("file missing depth_m column (use depth = NA for variables without a specific depth")
     }
 
     if(lexists(out, c("project_id"))){
