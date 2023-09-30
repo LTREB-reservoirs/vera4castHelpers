@@ -5,7 +5,7 @@ Tools for validating file formats and submitting to the VERA forecasting challen
 ## Installation
 
 ```
-remotes::install_github("/LTREB-reservoirs/vera4castHelpers")
+remotes::install_github("LTREB-reservoirs/vera4castHelpers")
 ```
 
 ### Usage
