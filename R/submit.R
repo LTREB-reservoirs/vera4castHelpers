@@ -32,15 +32,23 @@ if(grepl("(example)", model_id)){
           "If you want your forecast to be retained, please select a different model_id that does not contain `example` and register you model id at https://forms.gle/kg2Vkpho9BoMXSy57\n"))
 }
 if(!(model_id %in% registered_model_id$model_id) & !grepl("(example)",model_id)){
+  
   message("Checking if model_id is already used in submissions")
+  
+  submitted_model_ids <- readr::read_csv("https://renc.osn.xsede.org/bio230121-bucket01/vera4cast/inventory/model_id/model_id-project_id-inventory.csv", show_col_types = FALSE)
+  
   if(model_id %in% submitted_model_ids$model_id){
+    
     warning(paste0("Your model_id (",model_id,") has not been registered yet but is already used in other submissions.  Please use and register another model_id\n",
                    "   Register at https://forms.gle/kg2Vkpho9BoMXSy57\n",
                   "If you want to submit without registering, include the word 'example' in your model_id.  As an example forecast, it will be processed but not used in future analyses."))
+    
   }else{
+    
     warning(paste0("Your model_id (",model_id,") has not been registered\n",
                    "   Register at https://forms.gle/kg2Vkpho9BoMXSy57\n",
                   "If you want to submit without registering, include the word 'example' in your model_id.  As an example forecast, it will be processed but not used in future analyses."))
+    
   }
   return(NULL)
 }
