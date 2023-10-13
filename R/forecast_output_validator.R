@@ -41,6 +41,13 @@ forecast_output_validator <- function(forecast_file){
     # if file is csv zip file
     out <- readr::read_csv(file_in, guess_max = 1e6, show_col_types = FALSE)
 
+    if(lexists(out, c("model_id"))){
+      usethis::ui_done("file has model_id column")
+    }else{
+      usethis::ui_warn("file missing model_id column ")
+    }
+
+
     if("variable" %in% names(out) & "prediction" %in% names(out)){
       usethis::ui_done("forecasted variables found correct variable + prediction column")
     }else{
