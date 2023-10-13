@@ -114,18 +114,21 @@ forecast_output_validator <- function(forecast_file){
       usethis::ui_done("file has duration column")
     }else{
       usethis::ui_warn("file missing duration column (values for the column: daily = P1D, hourly = PT1H)")
+      valid <- FALSE
     }
 
     if(lexists(out, c("depth_m"))){
       usethis::ui_done("file has depth column")
     }else{
       usethis::ui_warn("file missing depth_m column (use depth = NA for variables without a specific depth")
+      valid <- FALSE
     }
 
     if(lexists(out, c("project_id"))){
       usethis::ui_done("file has project_id column")
     }else{
       usethis::ui_warn("file missing project_id column (use `vera4cast` as the project_id")
+      valid <- FALSE
     }
 
     if(lexists(out, c("reference_datetime"))){
@@ -134,6 +137,7 @@ forecast_output_validator <- function(forecast_file){
       usethis::ui_warn("file start_time column should be named reference_datetime. We are converting it during processing but please update your submission format")
     }else{
       usethis::ui_warn("file missing reference_datetime column")
+      valid <- FALSE
     }
 
   }else{
