@@ -28,7 +28,7 @@ submit <- function(forecast_file,
 
   registered_model_project_id <- paste(registered_project_id, registered_model_id, sep = "-")
 
-  df <- read4cast::read_forecast(forecast_file)
+  df <- readr::read_csv(forecast_file)
   model_id <- df$model_id[1]
   model_project_id <- paste("vera4cast", model_id, sep = "-")
 
