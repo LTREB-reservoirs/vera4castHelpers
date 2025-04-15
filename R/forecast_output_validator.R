@@ -36,6 +36,11 @@ forecast_output_validator <- function(forecast_file){
   #  usethis::ui_done("file name is correct")
   #}
 
+  ## check for spaces in filename
+  if (length(strsplit(file_in, " ")[[1]]) > 1){
+    stop('Filename cannot contain spaces...please rename')
+  }
+
   if(any(vapply(c("[.]csv", "[.]csv\\.gz"), grepl, logical(1), file_in))){
 
     # if file is csv zip file
