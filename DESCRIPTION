@@ -17,4 +17,5 @@ Imports:
     cpp11,
     readr,
     googlesheets4,
-    arrow
+    arrow,
+    gsheet
