@@ -16,4 +16,5 @@ Imports:
     brio,
     cpp11,
     readr,
-    googlesheets4
+    googlesheets4,
+    arrow
