@@ -54,7 +54,7 @@ noaa_stage1 <- function(start_date) {
   vars <- arrow_env_vars()
   
   bucket <- paste0("bio230121-bucket01/flare/drivers/met/gefs-v12/stage1/reference_datetime=",start_date)
-  endpoint_override <- "https://renc.osn.xsede.org"
+  endpoint_override <- "https://amnh1.osn.mghpcc.org"
   
   s3 <- arrow::s3_bucket(bucket,
                          endpoint_override = endpoint_override,
@@ -81,7 +81,7 @@ noaa_stage2 <- function(start_date) {
   
   bucket <- paste0("bio230121-bucket01/flare/drivers/met/gefs-v12/stage2/reference_datetime=",start_date)
   
-  endpoint_override <- "https://renc.osn.xsede.org"
+  endpoint_override <- "https://amnh1.osn.mghpcc.org"
   s3 <- arrow::s3_bucket(bucket,
                          endpoint_override = endpoint_override,
                          anonymous = TRUE)
@@ -108,7 +108,7 @@ noaa_stage3 <- function() {
   bucket <- "bio230121-bucket01/flare/drivers/met/gefs-v12/stage3"
   
   
-  endpoint_override <- "https://renc.osn.xsede.org"
+  endpoint_override <- "https://amnh1.osn.mghpcc.org"
   s3 <- arrow::s3_bucket(bucket,
                          endpoint_override = endpoint_override,
                          anonymous = TRUE)

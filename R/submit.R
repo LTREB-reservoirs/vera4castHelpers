@@ -21,7 +21,7 @@ submit <- function(forecast_file,
 
  googlesheets4::gs4_deauth()
   message("Checking if model_id is registered")
-  registered_model_id <- suppressMessages(googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:V"))
+  registered_model_id <- suppressMessages(googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1f177dpaxLzc4UuQ4_SJV9JWIbQPlilVnEztyvZE6aSU/edit?usp=sharing", range = "Sheet1!A:W"))
 
   registered_project_id <- registered_model_id$`What forecasting challenge are you registering for?`
   registered_model_id <- registered_model_id$model_id
