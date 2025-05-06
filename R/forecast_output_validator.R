@@ -3,8 +3,6 @@
 #' @param forecast_file forecast csv or csv.gz file
 #' @export
 
-library(gsheet)
-
 forecast_output_validator <- function(forecast_file){
 
 
@@ -47,7 +45,7 @@ forecast_output_validator <- function(forecast_file){
   }
 
   # read list of official target names and omit any NAs
-  target_metadata <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1fOWo6zlcWA8F6PmRS9AD6n1pf-dTWSsmGKNpaX3yHNE/edit?usp=sharing")
+  target_metadata <- gsheet::gsheet2tbl("https://docs.google.com/spreadsheets/d/1fOWo6zlcWA8F6PmRS9AD6n1pf-dTWSsmGKNpaX3yHNE/edit?usp=sharing")
   target_vars <- unique(target_metadata$`"official" targets name`)
   target_vars <- target_vars[!is.na(target_vars)]
 
