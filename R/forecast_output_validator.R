@@ -38,13 +38,24 @@ forecast_output_validator <- function(forecast_file){
 
   ## check for spaces in filename
   if (length(strsplit(file_in, " ")[[1]]) > 1){
-    stop('Filename cannot contain spaces...please rename')
+    usethis::ui_warn('Error: Filename cannot contain spaces...please rename')
+    valid <- FALSE
+  }else{
+    usethis::ui_done("file name is in valid format")
   }
+
+  # read list of official target names and omit any NAs
+  target_metadata <- gsheet::gsheet2tbl("https://docs.google.com/spreadsheets/d/1fOWo6zlcWA8F6PmRS9AD6n1pf-dTWSsmGKNpaX3yHNE/edit?usp=sharing")
+  target_vars <- unique(target_metadata$`"official" targets name`)
+  target_vars <- target_vars[!is.na(target_vars)]
+
+
 
   if(any(vapply(c("[.]csv", "[.]csv\\.gz"), grepl, logical(1), file_in))){
 
     # if file is csv zip file
     out <- readr::read_csv(file_in, guess_max = 1e6, show_col_types = FALSE)
+
 
     if(lexists(out, c("model_id"))){
       usethis::ui_done("file has model_id column")
@@ -57,6 +68,15 @@ forecast_output_validator <- function(forecast_file){
       usethis::ui_done("forecasted variables found correct variable + prediction column")
     }else{
       usethis::ui_warn("missing the variable and prediction columns")
+      valid <- FALSE
+    }
+
+
+    submit_vars <- unique(out['variable'])
+    if(submit_vas %in% target_vars){
+      usethis::ui_done("forecasted variables are included in official list of targets")
+    }else{
+      usethis::ui_warn("forecasted variables are not found in the official list of targets")
       valid <- FALSE
     }
 
