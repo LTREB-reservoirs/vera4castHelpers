@@ -73,7 +73,7 @@ forecast_output_validator <- function(forecast_file){
 
 
     submit_vars <- unique(out['variable'])
-    if(submit_vas %in% target_vars){
+    if(submit_vars %in% target_vars){
       usethis::ui_done("forecasted variables are included in official list of targets")
     }else{
       usethis::ui_warn("forecasted variables are not found in the official list of targets")
