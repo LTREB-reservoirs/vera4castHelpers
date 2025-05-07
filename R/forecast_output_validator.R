@@ -73,14 +73,13 @@ forecast_output_validator <- function(forecast_file){
 
 
     submit_vars <- unique(out$variable)
-    submit_check <- submit_vars %in% target_vars
 
-    if(FALSE %in% submit_check){
+    if(all(submit_vars %in% target_vars)){
+      usethis::ui_done("The forecasted variables are included in official list of targets")
+    }else{
       usethis::ui_warn("At least one of the forecasted variables are not found in the official list of targets")
       valid <- FALSE
-    }else{
-      usethis::ui_done("The forecasted variables are included in official list of targets")
-    }
+      }
 
     #usethis::ui_todo("Checking that file contains either ensemble or statistic column...")
 
