@@ -88,9 +88,26 @@ submit <- function(forecast_file,
   #                               "To remove the need to , set ask = 'TRUE'"))
   #}
 
+  ## add timestamp to filename to ensure unique file name for every submission ##
+  timestamp <- format(Sys.time(), "%Y%m%d%H%M%S")
+  ## split at the first "." so compound extensions (e.g. ".csv.gz") are kept intact
+  file_name <- basename(forecast_file)
+  file_parts <- regmatches(file_name, regexpr("\\.", file_name), invert = TRUE)[[1]]
+  file_stem <- file_parts[1]
+  file_ext <- paste0(".", file_parts[2])
+  forecast_file_tstamp <- paste0(file_stem, "_", timestamp, file_ext)
+
+  ## extract the directory path (empty string if no path supplied) and join with the new filename
+  forecast_file_dir <- dirname(forecast_file)
+  if (forecast_file_dir == ".") forecast_file_dir <- ""
+  forecast_file_tstamp_path <- file.path(forecast_file_dir, forecast_file_tstamp)
+
+  ## need to rewrite file locally with new filename to be accessed by put_object below
+  write.csv(df, forecast_file_tstamp_path)
+
   #GENERALIZATION:  Here are specific AWS INFO
-  exists <- aws.s3::put_object(file = forecast_file,
-                               object = basename(forecast_file),
+  exists <- aws.s3::put_object(file = forecast_file_tstamp_path,
+                               object = forecast_file_tstamp,
                                bucket = "vera4cast-submissions",
                                region= s3_region,
                                base_url = s3_endpoint)
@@ -100,4 +117,7 @@ submit <- function(forecast_file,
   }else{
     warning("Forecasts was not sucessfully submitted to server. Try again, then contact the Challenge organizers.")
   }
+
+  ## remove the local copy of the timestamped forecast file
+  file.remove(forecast_file_tstamp_path)
 }
