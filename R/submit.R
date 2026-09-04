@@ -103,7 +103,7 @@ submit <- function(forecast_file,
   forecast_file_tstamp_path <- file.path(forecast_file_dir, forecast_file_tstamp)
 
   ## need to rewrite file locally with new filename to be accessed by put_object below
-  write.csv(df, forecast_file_tstamp_path)
+  write.csv(df, forecast_file_tstamp_path, row.names = FALSE)
 
   #GENERALIZATION:  Here are specific AWS INFO
   exists <- aws.s3::put_object(file = forecast_file_tstamp_path,
